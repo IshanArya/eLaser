@@ -1,14 +1,17 @@
 var express = require('express');
+var app = express();
+var http = require('http');
+var server = http.createServer(app);
+var io = require('socket.io')(server);
 var path = require('path');
 var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var debug = require('debug')('expert-octo-invention:server');
 
-var routes = require('./routes');
-
-var app = express();
-
+var port = process.env.PORT || 3000;
+app.set('port', port);
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -20,6 +23,8 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+var routes = require('./routes');
 
 app.use('/', routes);
 
@@ -41,15 +46,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var debug = require('debug')('expert-octo-invention:server');
-var http = require('http');
-
-var port = parseInt(process.env.PORT) || 3000;
-app.set('port', port);
-
-var server = http.createServer(app);
-
-var io = require('socket.io')(server);
 io.on('connection', (socket) => {
 	console.log('connection recieved');
 	socket.emit('hey', 'what\'s up');
@@ -58,4 +54,6 @@ io.on('connection', (socket) => {
 	});
 });
 
-server.listen(port);
+server.listen(port, function() {
+  console.log("Server started on port " + port);
+});
