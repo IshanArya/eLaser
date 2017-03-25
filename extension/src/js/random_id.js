@@ -1,6 +1,5 @@
-var dict = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
-
 function randomID() {
+	var dict = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
     var num1 = Math.floor(Math.random() * 62);
     var num2 = Math.floor(Math.random() * 62);
     var num3 = Math.floor(Math.random() * 62);
