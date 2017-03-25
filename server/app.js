@@ -48,19 +48,12 @@ io.on('connection', (socket) => {
 	socket.emit('type_request', socket.id);
 	socket.on('type_response', (data) => {
 		if (data.type === 'receiver') {
-			pairs[data.key] = [socket.id];
-		} else if (data.type === 'transmitter') {
-			pairs[data.key].push(socket.id);
+			pairs[data.key] = socket;
 		}
 	});
 	socket.on('motion', (data) => {
 		var pair = pairs[data.key];
-		var idx = 0;
-		if (socket.id === pair[0]) {
-			idx = 1;
-		}
-		socket.broadcast.to(pair[idx]).emit('motion', data);
-		// console.log(data);
+		pair.emit('motion', data);
 	});
 });
 
