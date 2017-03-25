@@ -1,18 +1,19 @@
 var socket = io();
 
 function onReceiveSelected() {
+    alert('receiving');
     socket.on('motion', function(data) {
         var alpha = data.acc.alpha;
         var beta = data.acc.beta;
 
         $('#box').css({
-            'top': (beta * 5) + 'px',
-            'left': (alpha * 5) + 'px'
+            'transform': 'translate(' + (alpha * 5) + 'px, ' + (beta * 5) + 'px)'
         });
     });
 }
 
 function onTransmitSelected() {
+    alert('transmitting');
     window.ondeviceorientation = function(event) {
 
         var alpha = event.alpha; // 90 -> 270

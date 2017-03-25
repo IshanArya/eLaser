@@ -44,6 +44,7 @@ io.on('connection', (socket) => {
 	console.log('connection recieved');
 	socket.emit('hey', 'what\'s up');
 	socket.on('motion', (data) => {
+    socket.broadcast.emit('motion', data);
 		console.log(data.acc);
 	});
 });
