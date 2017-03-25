@@ -4,6 +4,7 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var path = require('path');
+var utils = require('./utils');
 var bodyParser = require('body-parser');
 
 var port = process.env.PORT || 3000;
@@ -40,11 +41,25 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+var pairs = {};
+
 io.on('connection', (socket) => {
 	console.log('connection recieved');
-	socket.emit('hey', 'what\'s up');
+	socket.emit('type_request', socket.id);
+	socket.on('type_response', (data) => {
+		if (data.type === 'receiver') {
+			pairs[data.key] = [socket.id];
+		} else if (data.type === 'transmitter') {
+			pairs[data.key].push(socket.id);
+		}
+	});
 	socket.on('motion', (data) => {
-    socket.broadcast.emit('motion', data);
+		var pair = pairs[data.key];
+		var idx = 0;
+		if (socket.id === pair[0]) {
+			idx = 1;
+		}
+		socket.broadcast.to(pair[idx]).emit('motion', data);
 		// console.log(data);
 	});
 });
