@@ -4,10 +4,11 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var debug = require('debug')('expert-octo-invention:server');
+var http = require('http');
+var app = express();
 
 var routes = require('./routes');
-
-var app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -40,9 +41,6 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
-var debug = require('debug')('expert-octo-invention:server');
-var http = require('http');
 
 var port = parseInt(process.env.PORT) || 3000;
 app.set('port', port);
