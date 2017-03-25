@@ -4,7 +4,6 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var path = require('path');
-var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
 
 var port = process.env.PORT || 3000;
