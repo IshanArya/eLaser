@@ -26,7 +26,7 @@ function onReceiveSelected() {
     alert('receiving');
     $('#box, #food').css('display', 'block');
     socket.on('motion', function(data) {
-        var x = data.x, y = data.y;
+        var x = data.x, y = data.y, theta = data.z;
         // if (Math.abs(x) * 2 >= $(window).width()) {
         //     x = position.x;
         // }
@@ -37,7 +37,7 @@ function onReceiveSelected() {
         // $('#box').css({
         //     'transform': 'translate(' + scale(-90, 90, -width/2, width/2, x) + 'px, ' + scale(-60, 60, -height/2, height/2, y) + 'px)'
         // });
-        box.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px)";
+        box.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px) rotate(" + theta + "deg)";
         // position = data;
     });
 }
@@ -61,7 +61,8 @@ function onTransmitSelected() {
 
         socket.emit('motion', {
             x: alpha,
-            y: -beta            
+            y: -beta,
+            z: event.gamma
         });
 
     }
