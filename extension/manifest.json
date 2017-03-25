@@ -2,20 +2,22 @@
   "manifest_version": 2,
   "name": "eLaser",
   "version": "1",
-  "default_locale": "en",
   "description": "Put a laser pointer on any webpage. Hooks up with your phone.",
-  "icons": {
-              "128": "icons/128x128.png",
-              "512": "icons/512x512.png"
-            },
   "background": {
     "persistent": false,
-    "scripts": ["background.js"]
+    "scripts": ["src/js/eventpage.js"]
   },
-  "permissions": ["http://*.google.com/", "https://*.google.com/"],
+  "permissions": [
+    "tabs",
+    "http://*/",
+    "https://*/"
+  ],
   "browser_action": {
-    "default_title": "",
-    "default_icon": "icon_19.png",
-    "default_popup": "popup.html"
+    "default_title": "Laser activate!",
+    "default_icon": {
+      "16": "icons/16x16.png",
+      "24": "icons/24x24.png",
+      "32": "icons/32x32.png"
+    }
   }
 }
