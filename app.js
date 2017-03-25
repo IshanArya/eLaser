@@ -49,4 +49,13 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+var io = require('socket.io')(server);
+io.on('connection', (socket) => {
+	console.log('connection recieved');
+	socket.emit('hey', 'what\'s up');
+	socket.on('motion', (data) => {
+		console.log(data.acc);
+	});
+});
+
 server.listen(port);
