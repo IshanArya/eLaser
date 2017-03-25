@@ -2,7 +2,7 @@ var socket = io("http://10.31.55.22:3000/");
 var point = document.createElement('DIV');
 
 point.id = "wow";
-point.setAttribute('style', 'width: 10px; height: 10px; background: red; transform: rotate(45deg); background-size: cover; position: fixed; top: 50%; left: 50%; z-index: 5423543542; display: block');
+point.setAttribute('style', 'width: 10px; height: 10px; background: red; border: 2px solid black; transform: rotate(45deg); background-size: cover; position: fixed; top: 50%; left: 50%; z-index: 5423543542; display: block');
 document.body.appendChild(point);
 
 
