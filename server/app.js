@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
 	});
 
 	socket.on('disconnect', () => {
-		console.log('disconnceted', socket.id);
+		console.log('disconnected', socket.id);
 		var keyToDelete;
 		for (var key in pairs) {
 			if (pairs[key] === socket.id) {
