@@ -1,64 +1,31 @@
 var socket = io();
 
-var position = {
-    x: 0,
-    y: 0
-};
-
-var velocity = {
-    x: 0,
-    y: 0
-};
-
-var food = {
-    x: 0,
-    y: 0
-};
-
 var key;
 
-var lastTime;
+// var lastTime;
 var box = document.getElementById('box');
 var pipe = document.getElementById('pipe');
 
 var width = $(window).width();
 var height = $(window).height();
 
-function onReceiveSelected() {
-    socket.on('type_request', function() {
-        socket.emit('type_response', {type: "receiver", key: 'lmao'});
-    });
-    // food.x = 
-    alert('receiving');
-    $('#box, #food').css('display', 'block');
-    requestAnimationFrame(movePipe);
-    socket.on('motion', function(data) {
-        var x = data.x, y = data.y, theta = data.z;
-        // if (Math.abs(x) * 2 >= $(window).width()) {
-        //     x = position.x;
-        // }
-        // if (Math.abs(y) * 2 >= $(window).height()) {
-        //     y = position.y;
-        // }
-        
-        // $('#box').css({
-        //     'transform': 'translate(' + scale(-90, 90, -width/2, width/2, x) + 'px, ' + scale(-60, 60, -height/2, height/2, y) + 'px)'
-        // });
-        box.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px) rotate(" + theta + "deg)";
-        // position = data;
-    });
+if (!navigator.userAgent.match('Mobile')) {
+    document.body.innerHTML = '<br><br><br><center>Please visit this page on a mobile device.<center>';
+} else {
+    document.body.style.animation = 'bg 10s linear infinite';
 }
 
-function movePipe() {
-    var currentLeft = parseInt(pipe.style.left || "100%");
-    currentLeft -= 0.005;
-    if (currentLeft <= 0) {
-        currentLeft = 100;
-    }
-    pipe.style.left = currentLeft + '%';
-    pipe.style.top = (Math.floor(Math.random() * 10) - 5) + '%';
-    requestAnimationFrame(movePipe);
-}
+// function onReceiveSelected() {
+//     socket.on('type_request', function() {
+//         socket.emit('type_response', {type: "receiver", key: 'lmao'});
+//     });
+//     $('#box').css('display', 'block');
+//     requestAnimationFrame(movePipe);
+//     socket.on('motion', function(data) {
+//         var x = data.x, y = data.y, theta = data.z;
+//         box.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px) rotate(" + theta + "deg)";
+//     });
+// }
 
 function onTransmitSelected() {
     key = prompt("Please enter the ID of your other device:");

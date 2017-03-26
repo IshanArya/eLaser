@@ -1,11 +1,12 @@
 <html>
 <head>
+    <meta name="viewport" content="width=device-width; initial-scale=1.0"/>
     <title>eLaser</title>
     <style>
-        #box {
+        /*#box {
             width: 100px;
             height: 100px;
-            /*background: blue;*/
+            /*background: blue;
             background: url("img/flappy_bird.png");
             background-size: cover;
             position: fixed;
@@ -13,7 +14,7 @@
             left: 50%;
             z-index: 2457389632847;
             display: none;
-        }
+        }*/
 
         /*#food {
             width: 5px;
@@ -26,7 +27,7 @@
             display: none;
         }*/
 
-        #pipe {
+        /*#pipe {
             background-image: url("img/pipe.png");
             background-size: cover;
             width: 115px;
@@ -35,15 +36,107 @@
             top: 0%;
             left: 100%;
             z-index: 120395;
+        }*/
+        @keyframes bg {
+            from {
+                background-color: red;
+            }
+
+            9% {
+                background-color: orange;
+            }
+
+            18% {
+                background-color: yellow;
+            }
+
+            27% {
+                background-color: green;
+            }
+
+            36% {
+                background-color: blue;
+            }
+
+            45% {
+                background-color: purple;
+            }
+
+            54% {
+                background-color: blue;
+            }
+
+            63% {
+                background-color: green;
+            }
+
+            72% {
+                background-color: yellow;
+            }
+
+            81% {
+                background-color: orange;
+            }
+
+            91% {
+                background-color: red;
+            }
+
+            to {
+                background-color: red;
+            }
+
+        }
+
+        body, html {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            display: table;
+        }
+
+        #container {
+            display: table-cell;
+            vertical-align: middle;
+            margin: auto;
+        }
+
+        input {
+            border-radius: 0;
+            text-align: center;
+            font-size: 36px;
+            color: black;
+        }
+
+        input, button {
+            width: 90%;
+            border: 3px solid black;
+            margin: auto;
+            display: block;
+            font-size: 36px;
+        }
+
+        button {
+            height: 13%;
+            background-color: #333;
+            color: white;
         }
     </style>
 </head>
 <body>
-    <h1>Pew pew</h1>
-    <button onclick="onTransmitSelected()">Transmit</button>
-    <button onclick="onReceiveSelected()">Receive</button>
-    <div id="box"></div>
-    <div id="pipe"></div>
+    <!--<h1>Pew pew</h1>-->
+    <!--<button onclick="onTransmitSelected()">Transmit</button>
+    <button onclick="onReceiveSelected()">Receive</button>-->
+    <!--<div id="box"></div>
+    <div id="pipe"></div>-->
+    <div id="container">
+        <input type="text" placeholder="Laser ID"/><br>
+        <button onclick="onTransmitSelected()">Connect</button>
+    </div>
     <script src="js/jquery-3.2.0.min.js"></script>
     <script src="js/socket.io.min.js"></script>
     <script src="js/main.js"></script>
