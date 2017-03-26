@@ -40,31 +40,40 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-var pairs = {};
+var receivers = {};
+var transmitters = {};
 
 io.on('connection', (socket) => {
 	console.log('connection recieved');
 	socket.emit('type_request');
 	socket.on('type_response', (data) => {
 		if (data.type === 'receiver') {
-			pairs[data.key] = socket.id;
+			receivers[data.key] = socket.id;
 		}
 	});
 	socket.on('motion', (data) => {
-		console.log(data);
-		var pair = pairs[data.key];
-		socket.broadcast.to(pair).emit('motion', data);
+		//console.log(data);
+		var receiver = receivers[data.key];
+        if (!transmitters[data.key]) {
+            transmitters[data.key] = socket.id;
+        } else {
+            if (transmitters[data.key] === socket.id) {
+		        socket.broadcast.to(receiver).emit('motion', data);
+            } else {
+                socket.emit('unauthorized');
+            }
+        }
 	});
 
 	socket.on('disconnect', () => {
 		console.log('disconnected', socket.id);
 		var keyToDelete;
-		for (var key in pairs) {
-			if (pairs[key] === socket.id) {
+		for (var key in receivers) {
+			if (receivers[key] === socket.id) {
 				keyToDelete = key;
 			}
 		}
-		delete pairs[keyToDelete];
+		delete receivers[keyToDelete];
 		socket.broadcast.emit('end', keyToDelete);
 	});
 });
