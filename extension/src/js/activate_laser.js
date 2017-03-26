@@ -60,7 +60,9 @@ socket.on('motion', function(data) {
     point.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px)";
 });
 socket.on('phoneClick', function(data) {
-    document.elementFromPoint(scale(-90, 90, -width/2, width/2, data.x), scale(-60, 60, -height/2, height/2, data.y)).click();
+    var x = scale(-90, 90, -width/2, width/2, data.x), y = scale(-60, 60, -height/2, height/2, data.y);
+    document.elementFromPoint(x + width/2, y + (width/2) - 52).click();
+    console.log("Click!");
 });
 socket.on('answer', function(answer) {
     answers.push(answer);
