@@ -1,4 +1,4 @@
-var socket = io("http://10.31.55.22:3000/");
+var socket = io("https://useyourphoneasalaser.herokuapp.com/");
 var point = document.createElement('DIV');
 
 var id;
@@ -18,10 +18,10 @@ function randomID() {
     var num4 = Math.floor(Math.random() * 62);
     return dict[num1] + dict[num2] + dict[num3] + dict[num4];
 }
+id = randomID();
 function scale(x0, x1, y0, y1, x) {
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
 }
-id = randomID();
 
 
 
