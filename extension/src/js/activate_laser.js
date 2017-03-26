@@ -2,7 +2,7 @@ var socket = io("https://useyourphoneasalaser.herokuapp.com/");
 var point = document.createElement('DIV');
 
 var id;
-var answers;
+var answers = [];
 
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -37,7 +37,7 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 
     if(request.question) {
-        socket.emit('question', request.question);
+        socket.emit('question', {id: id, question: request.question});
     }
     if(request.getAnswers) {
         if(answers.length > 0) {
@@ -45,8 +45,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
             answers.splice(0, answers.length);
         }
     }
-    if(request.returnToQuestion) {
-        socket.emit('endQuestion');
+    if(request.endSession) {
+        socket.emit('endQuestion', {id: id});
     }
 });
 

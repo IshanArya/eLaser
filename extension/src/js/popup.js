@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 	var answersDiv = document.getElementById('answers');
 	var answerList = document.getElementById('answerList');
-	var returnToQuestionButton = document.getElementById('returnToQuestion');
+	var returnToQuestionButton = document.getElementById('endSession');
 
 	var intervalId;
 
@@ -32,30 +32,30 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 
 	function getAnswers() {
-		var tempDiv = document.createElement("DIV");
-		var temph4 = document.createElement("h4");
-		var tempp = document.createElement("p");
-		tempDiv.className = "answer";
-		temph4.textContent = "Bob Garrett";
-		tempp.textContent = "1 + 1 = 3";
-		tempDiv.appendChild(temph4);
-		tempDiv.appendChild(tempp);
-		answerList.appendChild(tempDiv);
-		answerList.appendChild(document.createElement("hr"));
+		// var tempDiv = document.createElement("DIV");
+		// var temph4 = document.createElement("h4");
+		// var tempp = document.createElement("p");
+		// tempDiv.className = "answer";
+		// temph4.textContent = "Bob Garrett";
+		// tempp.textContent = "1 + 1 = 3";
+		// tempDiv.appendChild(temph4);
+		// tempDiv.appendChild(tempp);
+		// answerList.appendChild(tempDiv);
+		// answerList.appendChild(document.createElement("hr"));
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {getAnswers: 1}, function(response) {
-				response.forEach(function(answer) {
+				for(var i = 0; i < response.length; i++) {
 					var tempDiv = document.createElement("DIV");
 					var temph4 = document.createElement("h4");
 					var tempp = document.createElement("p");
 					tempDiv.className = "answer";
-					temph4.textContent = answer.user;
-					tempp.textContent = answer.answer;
+					temph4.textContent = response[i].user;
+					tempp.textContent = response[i].answer;
 					tempDiv.appendChild(temph4);
 					tempDiv.appendChild(tempp);
 					answerList.appendChild(tempDiv);
 					answerList.appendChild(document.createElement("hr"));
-				});
+				};
 			});
 		});
 	}
@@ -81,7 +81,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	});
 	returnToQuestionButton.addEventListener('click', function() {
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-			chrome.tabs.sendMessage(tabs[0].id, {returnToQuestion: true});
+			chrome.tabs.sendMessage(tabs[0].id, {endSession: true});
 		});
 		clearInterval(intervalId);
 		answersDiv.style.display = "none";
