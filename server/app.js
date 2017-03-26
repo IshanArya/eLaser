@@ -4,7 +4,6 @@ var http = require('http');
 var server = http.createServer(app);
 var io = require('socket.io')(server);
 var path = require('path');
-var utils = require('./utils');
 var bodyParser = require('body-parser');
 
 var port = process.env.PORT || 3000;
@@ -45,18 +44,35 @@ var pairs = {};
 
 io.on('connection', (socket) => {
 	console.log('connection recieved');
-	socket.emit('type_request', socket.id);
+	socket.emit('type_request');
 	socket.on('type_response', (data) => {
 		if (data.type === 'receiver') {
-			pairs[data.key] = socket;
+			pairs[data.key] = socket.id;
 		}
 	});
 	socket.on('motion', (data) => {
 		var pair = pairs[data.key];
-		pair.emit('motion', data);
+		console.log(data);
+		socket.broadcast.to(pair).emit('motion', data);
+	});
+
+	socket.on('disconnect', () => {
+		console.log('disconnceted', socket.id);
+		var keyToDelete;
+		for (var key in pairs) {
+			if (pairs[key] === socket.id) {
+				keyToDelete = key;
+			}
+		}
+		delete pairs[keyToDelete];
+		socket.broadcast.emit('end', keyToDelete);
 	});
 });
 
 server.listen(port, function() {
   console.log("Server started on port " + port);
 });
+
+setInterval(function() {
+	console.log(pairs);
+}, 1000);
