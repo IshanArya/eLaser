@@ -15,6 +15,8 @@ var food = {
     y: 0
 };
 
+var key;
+
 var lastTime;
 var box = document.getElementById('box');
 
@@ -43,7 +45,7 @@ function onReceiveSelected() {
 }
 
 function onTransmitSelected() {
-    alert('transmitting');
+    key = prompt("Please enter the ID of your other device:");
     window.ondeviceorientation = function(event) {
 
         var alpha = event.alpha; // 90 -> 270
@@ -60,12 +62,20 @@ function onTransmitSelected() {
         beta = round2(beta);
 
         socket.emit('motion', {
+            key: key,
             x: alpha,
             y: -beta,
             z: event.gamma
         });
 
     }
+
+    socket.on('end', function(endedKey) {
+        if (endedKey === key) {
+            window.ondevicemotion = null;
+            alert("Other device disconnected. Please reload the page to connect again.");
+        }
+    });
 
     // lastTime = Date.now();
 
