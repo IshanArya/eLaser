@@ -8,7 +8,6 @@ var height = window.innerHeight;
 
 point.id = "LvUkES3XHDSCT";
 point.setAttribute('style', 'width: 10px; height: 10px; background: red; border: 2px solid black; transform: rotate(45deg); background-size: cover; position: fixed; top: 50%; left: 50%; z-index: 5423543542; display: block');
-document.body.appendChild(point);
 
 
 function randomID() {
@@ -31,6 +30,13 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		console.log("received");
 		sendResponse({id: id, runAgain: false});
 	}
+});
+chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    if(request.laserOn) {
+        document.body.appendChild(point);
+    } else {
+        document.body.removeChild(point);
+    }
 });
 
 socket.on('type_request', function() {

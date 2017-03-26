@@ -1,5 +1,7 @@
 document.addEventListener('DOMContentLoaded', function() {
 	var pageId = document.getElementById('id');
+	var laserToggle = document.getElementById('myonoffswitch');
+
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {laserActivate: 1}, function(response) {
 			if(response.runAgain) {
@@ -18,4 +20,14 @@ document.addEventListener('DOMContentLoaded', function() {
 			}
 		});
 	});
+
+
+	laserToggle.addEventListener('change', function() {
+		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+			console.log(laserToggle.checked);
+			chrome.tabs.sendMessage(tabs[0].id, {laserOn: laserToggle.checked}, function(response) {
+				
+			});
+		});
+	})
 });
