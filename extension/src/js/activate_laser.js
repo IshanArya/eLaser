@@ -1,4 +1,4 @@
-var socket = io("https://useyourphoneasalaser.herokuapp.com/");
+var socket = io("http://10.31.55.22:3000");
 var point = document.createElement('DIV');
 
 var id;
@@ -25,8 +25,8 @@ function scale(x0, x1, y0, y1, x) {
 }
 
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+    //console.log(request);
 	if(request.laserActivate) {
-		console.log("received");
 		sendResponse({id: id, runAgain: false});
 	}
 
@@ -39,15 +39,17 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
     }
 
     if(request.question) {
+        console.log("Question received");
         socket.emit('question', {id: id, question: request.question});
     }
     if(request.getAnswers) {
+        console.log(answers);
         if(answers.length > 0) {
             sendResponse(answers);
-            answers.splice(0, answers.length);
         }
     }
     if(request.endSession) {
+        answers.splice(0, answers.length);
         socket.emit('endQuestion', {id: id});
     }
 });
@@ -65,5 +67,6 @@ socket.on('phoneClick', function(data) {
     console.log("Click!");
 });
 socket.on('answer', function(answer) {
+    console.log("Answer this");
     answers.push(answer);
 });

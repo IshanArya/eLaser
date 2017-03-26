@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', function() {
 	var returnToQuestionButton = document.getElementById('endSession');
 
 	var intervalId;
+	var answersPosition = 0;
 
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		chrome.tabs.sendMessage(tabs[0].id, {laserActivate: 1}, function(response) {
@@ -44,18 +45,22 @@ document.addEventListener('DOMContentLoaded', function() {
 		// answerList.appendChild(document.createElement("hr"));
 		chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 			chrome.tabs.sendMessage(tabs[0].id, {getAnswers: 1}, function(response) {
-				for(var i = 0; i < response.length; i++) {
-					var tempDiv = document.createElement("DIV");
-					var temph4 = document.createElement("h4");
-					var tempp = document.createElement("p");
-					tempDiv.className = "answer";
-					temph4.textContent = response[i].user;
-					tempp.textContent = response[i].answer;
-					tempDiv.appendChild(temph4);
-					tempDiv.appendChild(tempp);
-					answerList.appendChild(tempDiv);
-					answerList.appendChild(document.createElement("hr"));
-				};
+				if(response) {
+					for(var i = answersPosition; i < response.length; i++) {
+						var tempDiv = document.createElement("DIV");
+						var temph4 = document.createElement("h4");
+						var tempp = document.createElement("p");
+						tempDiv.className = "answer";
+						temph4.textContent = response[i].user;
+						tempp.textContent = response[i].answer;
+						tempDiv.appendChild(temph4);
+						tempDiv.appendChild(tempp);
+						answerList.appendChild(tempDiv);
+						answerList.appendChild(document.createElement("hr"));
+					};
+					answersPosition = response.length;
+				}
+				
 			});
 		});
 	}
@@ -72,7 +77,7 @@ document.addEventListener('DOMContentLoaded', function() {
 			chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 				chrome.tabs.sendMessage(tabs[0].id, {question: question.value});
 			});
-			question.value = "";
+			console.log("message sent");
 			classroomDiv.style.display = "none";
 			answersDiv.style.display = "block";
 		}
@@ -84,9 +89,11 @@ document.addEventListener('DOMContentLoaded', function() {
 			chrome.tabs.sendMessage(tabs[0].id, {endSession: true});
 		});
 		clearInterval(intervalId);
+		question.value = "";
 		answersDiv.style.display = "none";
 		classroomDiv.style.display = "block";
 		answerList.innerHTML = '<img src="../img/loading.gif">';
+		answersPosition = 0;
 	});
 
 });
