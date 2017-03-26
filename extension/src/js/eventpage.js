@@ -3,6 +3,6 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 		file: 'src/js/socket.io.min.js'
 	});
 	chrome.tabs.executeScript({
-		file: 'src/js/content_script.js'
+		file: 'src/js/activate_laser.js'
 	});
 });
