@@ -15,15 +15,26 @@
             display: none;
         }
 
-        #food {
+        /*#food {
             width: 5px;
             height: 5px;
             background: red;
-            /*position: fixed;*/
+            /*position: fixed;
             top: 50%;
             left: 50%;
             z-index: 9453426409;
             display: none;
+        }*/
+
+        #pipe {
+            background-image: url("img/pipe.png");
+            background-size: cover;
+            width: 115px;
+            height: 800px;
+            position: fixed;
+            top: 0%;
+            left: 100%;
+            z-index: 120395;
         }
     </style>
 </head>
@@ -32,6 +43,7 @@
     <button onclick="onTransmitSelected()">Transmit</button>
     <button onclick="onReceiveSelected()">Receive</button>
     <div id="box"></div>
+    <div id="pipe"></div>
     <script src="js/jquery-3.2.0.min.js"></script>
     <script src="js/socket.io.min.js"></script>
     <script src="js/main.js"></script>

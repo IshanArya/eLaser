@@ -51,8 +51,8 @@ io.on('connection', (socket) => {
 		}
 	});
 	socket.on('motion', (data) => {
-		var pair = pairs[data.key];
 		console.log(data);
+		var pair = pairs[data.key];
 		socket.broadcast.to(pair).emit('motion', data);
 	});
 
@@ -72,7 +72,3 @@ io.on('connection', (socket) => {
 server.listen(port, function() {
   console.log("Server started on port " + port);
 });
-
-setInterval(function() {
-	console.log(pairs);
-}, 1000);
