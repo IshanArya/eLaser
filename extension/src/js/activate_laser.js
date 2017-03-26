@@ -57,6 +57,9 @@ socket.on('motion', function(data) {
     var x = data.x, y = data.y;
     point.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px)";
 });
+socket.on('phoneClick', function(data) {
+    document.elementFromPoint(scale(-90, 90, -width/2, width/2, data.x), scale(-60, 60, -height/2, height/2, data.y)).click();
+});
 socket.on('answer', function(answer) {
     answers.push(answer);
 });
