@@ -62,7 +62,7 @@ h2 {
 	background: #424242;
 	height: 3px;
 }
-#questionLabel {
+.sectionLabel {
 	font-size: 2em;
 }
 #question {
@@ -71,7 +71,7 @@ h2 {
 	height: 50px;
 	word-wrap: break-word;
 }
-#submitButton {
+input[type="submit"] {
 	font-family: "Raleway";
 	font-size: bold;
 	display: block;
@@ -79,10 +79,33 @@ h2 {
 	background: #FAFAFA;
 	border: 2px solid #29B6F6;
 }
-#submitButton:active {
+input[type="submit"]:active {
 	background: #29B6F6;
 	border: 2px solid #FAFAFA;
 }
-#submitButton:focus {
+input[type="submit"]:focus {
 	outline: none;
+}
+#answers {
+	display: none;
+}
+.answer {
+	text-align: left;
+	color: #212121;
+}
+.answer h4 {
+	margin-bottom: 1px;
+}
+.answer p {
+	margin-top: 0;
+}
+img {
+	display: block;
+	margin: 0 auto;
+}
+hr {
+	border: 0;
+	height: 0;
+	border-top: 1px solid rgba(0, 0, 0, 0.1);
+	border-bottom: 1px solid rgba(255, 255, 255, 0.3);
 }

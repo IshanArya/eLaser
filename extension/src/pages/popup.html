@@ -19,8 +19,16 @@
 
 		<div class="break"></div>
 
-		<label for="question" id="questionLabel">Question:</label>
-		<textarea name="question" id="question"></textarea>
-		<input type="submit" name="submit" id="submitButton">
+		<div id="classroom">
+			<label for="question" class="sectionLabel">Question:</label>
+			<textarea name="question" id="question"></textarea>
+			<input type="submit" name="submit" id="submitButton">
+		</div>
+		<div id="answers">
+			<label class="sectionLabel">Answers:</label>
+			<div id="answerList"><img src="../img/loading.gif"></div>
+			<input type="submit" value="End" id="returnToQuestion">
+		</div>
+		
 	</body>
 </html>

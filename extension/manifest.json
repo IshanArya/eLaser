@@ -22,9 +22,9 @@
     "default_title": "Laser activate!",
     "default_popup": "src/pages/popup.html",
     "default_icon": {
-      "16": "icons/16x16.png",
-      "24": "icons/24x24.png",
-      "32": "icons/32x32.png"
+      "16": "src/icons/16x16.png",
+      "24": "src/icons/24x24.png",
+      "32": "src/icons/32x32.png"
     }
   }
 }

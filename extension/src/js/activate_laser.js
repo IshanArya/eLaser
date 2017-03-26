@@ -2,6 +2,7 @@ var socket = io("https://useyourphoneasalaser.herokuapp.com/");
 var point = document.createElement('DIV');
 
 var id;
+var answers;
 
 var width = window.innerWidth;
 var height = window.innerHeight;
@@ -23,19 +24,29 @@ function scale(x0, x1, y0, y1, x) {
     return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
 }
 
-
-
 chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 	if(request.laserActivate) {
 		console.log("received");
 		sendResponse({id: id, runAgain: false});
 	}
-});
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+
     if(request.laserOn) {
         document.body.appendChild(point);
     } else {
         document.body.removeChild(point);
+    }
+
+    if(request.question) {
+        socket.emit('question', request.question);
+    }
+    if(request.getAnswers) {
+        if(answers.length > 0) {
+            sendResponse(answers);
+            answers.splice(0, answers.length);
+        }
+    }
+    if(request.returnToQuestion) {
+        socket.emit('endQuestion');
     }
 });
 
@@ -45,4 +56,7 @@ socket.on('type_request', function() {
 socket.on('motion', function(data) {
     var x = data.x, y = data.y;
     point.style.transform = "translate(" + scale(-90, 90, -width/2, width/2, x) + "px, " + scale(-60, 60, -height/2, height/2, y) + "px)";
+});
+socket.on('answer', function(answer) {
+    answers.push(answer);
 });
