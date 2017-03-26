@@ -30,10 +30,12 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
 		sendResponse({id: id, runAgain: false});
 	}
 
-    if(request.laserOn) {
-        document.body.appendChild(point);
-    } else {
-        document.body.removeChild(point);
+    if(request.hasOwnProperty("laserOn")) {
+        if(request.laserOn) {
+            document.body.appendChild(point);
+        } else {
+            document.body.removeChild(point);
+        }
     }
 
     if(request.question) {
