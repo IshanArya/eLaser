@@ -43,16 +43,16 @@ app.use(function(err, req, res, next) {
 var receivers = {};
 var transmitters = {};
 
-io.on('connection', (socket) => {
+io.on('connection', function(socket) {
 	console.log('connection recieved');
 	socket.emit('type_request');
-	socket.on('type_response', (data) => {
+	socket.on('type_response', function(data) {
 		if (data.type === 'receiver') {
 			receivers[data.key] = socket.id;
 		}
 	});
 	
-    socket.on('motion', (data) => {
+    socket.on('motion', function(data) {
 		//console.log(data);
 		var receiver = receivers[data.key];
         if (!transmitters[data.key]) {
@@ -66,12 +66,12 @@ io.on('connection', (socket) => {
         }
 	});
 
-    socket.on('phoneClick', (data) => {
+    socket.on('phoneClick', function(data) {
         var receiver = receivers[data.key];
         socket.broadcast.to(receiver).emit('phoneClick', data);
     });
 
-	socket.on('disconnect', () => {
+	socket.on('disconnect', function() {
 		console.log('disconnected', socket.id);
 		var keyToDelete;
 		for (var key in receivers) {
@@ -83,7 +83,7 @@ io.on('connection', (socket) => {
 		socket.broadcast.emit('end', keyToDelete);
 	});
 
-    socket.on('question', (data) => {
+    socket.on('question', function(data) {
         socket.broadcast.emit('question', data);
         console.log('question:', data);
     });
