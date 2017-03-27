@@ -1,4 +1,4 @@
-var socket = io("http://10.31.55.22:3000");
+var socket = io("http://192.168.1.138:3000");
 var point = document.createElement('DIV');
 
 var id;
@@ -65,6 +65,7 @@ socket.on('phoneClick', function(data) {
     var x = scale(-90, 90, -width/2, width/2, data.x), y = scale(-60, 60, -height/2, height/2, data.y);
     document.elementFromPoint(x + width/2, y + (width/2) - 52).click();
     console.log("Click!");
+
 });
 socket.on('answer', function(answer) {
     console.log("Answer this");

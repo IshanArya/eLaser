@@ -2,17 +2,26 @@ var socket = io();
 
 var key;
 var input = document.getElementById('key');
+var button1 = document.getElementById('laser_button');
+var button2 = document.getElementById('question_button');
 
 var width = $(window).width();
 var height = $(window).height();
 
+var currentPos = {
+     x: 0,
+     y: 0
+};
+
 if (!navigator.userAgent.match('Mobile')) {
-    document.body.innerHTML = '<br><br><br><center>Please visit this page on a mobile device.<center>';
+    // document.body.innerHTML = '<br><br><br><center>Please visit this page on a mobile device.<center>';
 } else {
     document.body.style.animation = 'bg 10s linear infinite';
 }
 
 function onTransmitSelected() {
+    button1.style.display = "none";
+    button2.style.display = "none";
     key = input.value;
     window.ondeviceorientation = function(event) {
 
@@ -29,28 +38,46 @@ function onTransmitSelected() {
         var beta = event.beta; // -90 -> 90
         beta = round2(beta);
 
-        socket.emit('motion', {
+        currentPos = {
             key: key,
             x: alpha,
             y: -beta,
-            z: event.gamma
-        });
+        };
 
+        socket.emit('motion', currentPos);
+
+    }
+
+    window.ontouchstart = function(e) {
+        e.preventDefault();
+        socket.emit('phoneClick', currentPos);
     }
 
     socket.on('end', function(endedKey) {
         if (endedKey === key) {
             window.ondevicemotion = null;
             alert("Other device disconnected. Please reload the page to connect again.");
+            location.reload();
         }
     });
 
-  }
+}
+
+function onQuestionSelected() {
+    key = input.value;
+    socket.on('question', function(data) {
+        if (data.id === key) {
+            var name = prompt('What\'s your name?');
+            var answer = prompt(data.question);
+            socket.emit('answer', {
+                key: key,
+                answer: answer,
+                user: name
+            });
+        }
+    });
+}
 
 function round2(a) {
     return Math.floor(a * 100) / 100;
-}
-
-function scale(x0, x1, y0, y1, x) {
-    return y0 + (y1 - y0) * (x - x0) / (x1 - x0);
 }

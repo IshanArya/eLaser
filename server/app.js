@@ -51,7 +51,8 @@ io.on('connection', (socket) => {
 			receivers[data.key] = socket.id;
 		}
 	});
-	socket.on('motion', (data) => {
+	
+    socket.on('motion', (data) => {
 		//console.log(data);
 		var receiver = receivers[data.key];
         if (!transmitters[data.key]) {
@@ -65,6 +66,11 @@ io.on('connection', (socket) => {
         }
 	});
 
+    socket.on('phoneClick', (data) => {
+        var receiver = receivers[data.key];
+        socket.broadcast.to(receiver).emit('phoneClick', data);
+    });
+
 	socket.on('disconnect', () => {
 		console.log('disconnected', socket.id);
 		var keyToDelete;
@@ -76,6 +82,16 @@ io.on('connection', (socket) => {
 		delete receivers[keyToDelete];
 		socket.broadcast.emit('end', keyToDelete);
 	});
+
+    socket.on('question', (data) => {
+        socket.broadcast.emit('question', data);
+        console.log('question:', data);
+    });
+
+    socket.on('answer', function(data) {
+        var receiver = receivers[data.key];
+        socket.broadcast.to(receiver).emit('answer', data);
+    });
 });
 
 server.listen(port, function() {
