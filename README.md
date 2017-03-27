@@ -1,5 +1,7 @@
 # expert-octo-invention
 
+### This project won 4 categories at hackBCA IV: Code For Good Award, Best Education Hack, Best Use of Wolfram, and Overall top 10.
+
 ## Inspiration
 Generic store-bought laser pointers are always a pain - you have to pair them with your computer, sometimes you lose the USB dongle, and most of the time the controls are so obscure, you waste the first 5 minutes of your presentation time figuring out how to navigate between your slides. We attempt to fix this problem by bringing together two widespread technologies - your web browser, and your smartphone.
 
