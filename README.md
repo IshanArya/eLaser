@@ -1,4 +1,4 @@
-# expert-octo-invention
+# eLaser
 
 ### This project won 4 categories at hackBCA IV: Code For Good Award, Best Education Hack, Best Use of Wolfram, and Overall top 10.
 
